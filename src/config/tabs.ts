@@ -1,18 +1,52 @@
 /**
  * Tab Configuration — Add new tabs here!
  *
- * Each tab needs: id, label, icon, type, and type-specific config.
- *
- * Types:
- *   "checklist" — Categorized items with status tracking (DSA, System Design, etc.)
- *   "daily"     — Daily effort log with time tracking
- *
  * To add a new tab:
- *   1. Add an entry below
+ *   1. Add an entry to the `tabs` array below
  *   2. That's it — the app renders it automatically
  */
 
-export const tabs = [
+export interface Category {
+  id: string
+  name: string
+}
+
+export interface TabConfig {
+  id: string
+  label: string
+  icon: string
+  type: 'checklist' | 'daily'
+  showDifficulty?: boolean
+  categories?: Category[]
+}
+
+export interface TrackedItem {
+  id: string
+  title: string
+  difficulty: 'easy' | 'medium' | 'hard' | null
+  url: string | null
+  status: 'todo' | 'progress' | 'done'
+  notes: string
+  createdAt: string
+  completedAt: string | null
+}
+
+export interface DailyEntry {
+  id: string
+  tabId: string
+  tabLabel: string
+  minutes: number
+  notes: string
+  time: string
+}
+
+export interface DailyData {
+  entries: Record<string, DailyEntry[]>
+}
+
+export type ChecklistData = Record<string, TrackedItem[]>
+
+export const tabs: TabConfig[] = [
   {
     id: 'dsa',
     label: 'DSA',
