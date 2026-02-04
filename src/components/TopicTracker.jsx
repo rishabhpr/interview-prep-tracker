@@ -34,28 +34,32 @@ function AddItemForm({ showDifficulty, onAdd, onCancel }) {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-wrap gap-2 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+    <form onSubmit={submit} className="space-y-2 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
       <input
         value={title} onChange={e => setTitle(e.target.value)}
         placeholder="Item title..."
-        className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+        className="w-full px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
         autoFocus
       />
-      {showDifficulty && (
-        <select value={difficulty} onChange={e => setDifficulty(e.target.value)}
-          className="px-3 py-2 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-300 focus:outline-none focus:border-indigo-500">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      )}
-      <input
-        value={url} onChange={e => setUrl(e.target.value)}
-        placeholder="URL (optional)"
-        className="flex-1 min-w-[150px] px-3 py-2 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
-      />
-      <button type="submit" className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-md text-sm font-medium">Add</button>
-      <button type="button" onClick={onCancel} className="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-md text-sm">Cancel</button>
+      <div className="flex flex-wrap gap-2">
+        {showDifficulty && (
+          <select value={difficulty} onChange={e => setDifficulty(e.target.value)}
+            className="px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        )}
+        <input
+          value={url} onChange={e => setUrl(e.target.value)}
+          placeholder="URL (optional)"
+          className="flex-1 min-w-[150px] px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+        />
+      </div>
+      <div className="flex gap-2">
+        <button type="submit" className="flex-1 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-md text-sm font-medium">Add</button>
+        <button type="button" onClick={onCancel} className="px-4 py-3 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 rounded-md text-sm">Cancel</button>
+      </div>
     </form>
   )
 }
@@ -80,52 +84,54 @@ function ItemRow({ item, showDifficulty, onUpdate, onDelete }) {
   }
 
   return (
-    <div className="group flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800/50 rounded-lg">
-      {/* Status checkbox */}
-      <button onClick={cycleStatus} className="shrink-0" title={STATUS[item.status]}>
-        {item.status === 'done' ? (
-          <svg className="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-          </svg>
-        ) : item.status === 'progress' ? (
-          <div className="w-5 h-5 rounded-full border-2 border-amber-400 flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-amber-400"/>
-          </div>
-        ) : (
-          <div className="w-5 h-5 rounded-full border-2 border-slate-600 group-hover:border-slate-400"/>
-        )}
-      </button>
+    <div className="group">
+      <div className="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800/50 rounded-lg">
+        {/* Status checkbox */}
+        <button onClick={cycleStatus} className="shrink-0 p-1" title={STATUS[item.status]}>
+          {item.status === 'done' ? (
+            <svg className="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+            </svg>
+          ) : item.status === 'progress' ? (
+            <div className="w-5 h-5 rounded-full border-2 border-amber-400 flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-amber-400"/>
+            </div>
+          ) : (
+            <div className="w-5 h-5 rounded-full border-2 border-slate-600 group-hover:border-slate-400"/>
+          )}
+        </button>
 
-      {/* Title */}
-      <span className={`flex-1 text-sm ${item.status === 'done' ? 'line-through text-slate-500' : 'text-slate-200'}`}>
-        {item.title}
-      </span>
-
-      {/* Difficulty */}
-      {showDifficulty && item.difficulty && (
-        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${DIFF_COLORS[item.difficulty]}`}>
-          {item.difficulty}
+        {/* Title */}
+        <span className={`flex-1 text-sm ${item.status === 'done' ? 'line-through text-slate-500' : 'text-slate-200'}`}>
+          {item.title}
         </span>
-      )}
 
-      {/* Link */}
-      {item.url && (
-        <a href={item.url} target="_blank" rel="noopener" className="text-slate-500 hover:text-indigo-400 text-sm">🔗</a>
-      )}
+        {/* Difficulty */}
+        {showDifficulty && item.difficulty && (
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${DIFF_COLORS[item.difficulty]}`}>
+            {item.difficulty}
+          </span>
+        )}
 
-      {/* Notes toggle */}
-      <button onClick={() => setEditing(!editing)}
-        className={`text-sm opacity-0 group-hover:opacity-100 ${item.notes ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'}`}>
-        📝
-      </button>
+        {/* Link */}
+        {item.url && (
+          <a href={item.url} target="_blank" rel="noopener" className="text-slate-500 hover:text-indigo-400 text-sm p-1">🔗</a>
+        )}
 
-      {/* Delete */}
-      <button onClick={() => onDelete(item.id)}
-        className="text-sm text-slate-600 hover:text-rose-400 opacity-0 group-hover:opacity-100">✕</button>
+        {/* Notes toggle */}
+        <button onClick={() => setEditing(!editing)}
+          className={`text-sm p-1 ${item.notes ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'}`}>
+          📝
+        </button>
+
+        {/* Delete */}
+        <button onClick={() => onDelete(item.id)}
+          className="text-sm text-slate-600 hover:text-rose-400 p-1">✕</button>
+      </div>
 
       {/* Notes area */}
       {editing && (
-        <div className="w-full mt-2">
+        <div className="px-3 pb-2">
           <textarea value={notes} onChange={e => setNotes(e.target.value)}
             onBlur={saveNotes} onKeyDown={e => e.key === 'Escape' && saveNotes()}
             placeholder="Notes..."
@@ -183,8 +189,8 @@ function CategorySection({ category, items, showDifficulty, onUpdate }) {
             </div>
           ) : (
             <button onClick={() => setAdding(true)}
-              className="mt-1 ml-3 text-sm text-slate-500 hover:text-indigo-400 flex items-center gap-1">
-              <span>+</span> Add item
+              className="mt-2 mx-3 mb-1 w-[calc(100%-1.5rem)] py-2.5 text-sm text-slate-400 hover:text-indigo-400 hover:bg-slate-800/50 border border-dashed border-slate-700 hover:border-indigo-500/50 rounded-lg flex items-center justify-center gap-1.5 active:bg-slate-800">
+              <span className="text-lg leading-none">+</span> Add item
             </button>
           )}
         </div>
