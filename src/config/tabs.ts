@@ -96,6 +96,23 @@ export const tabs: TabConfig[] = [
     ],
   },
   {
+    id: '90-day-roadmap',
+    label: '90-Day Roadmap',
+    icon: '🎯',
+    type: 'checklist',
+    showDifficulty: false,
+    categories: [
+      { id: 'phase1-dsa', name: 'Phase 1 (Days 1-30): DSA Foundation — 1.5h/day DSA + 1h/day System Design Review' },
+      { id: 'phase1-design', name: 'Phase 1: System Design Refresh (Leverage your App Gateway exp)' },
+      { id: 'phase2-dsa', name: 'Phase 2 (Days 31-60): DSA Mastery + Mock Interviews — 1.5h DSA + 1h Mock' },
+      { id: 'phase2-behavioral', name: 'Phase 2: Behavioral Prep (Googleyness, LP, Apple Culture)' },
+      { id: 'phase3-mocks', name: 'Phase 3 (Days 61-75): Intensive Mocks + Weak Areas — 2h mocks + 30min review' },
+      { id: 'phase3-company', name: 'Phase 3: Company-Specific Prep' },
+      { id: 'phase4-final', name: 'Phase 4 (Days 76-90): Final Polish + Application — 1.5h/day' },
+      { id: 'daily-checkpoints', name: 'Daily Habit Checkpoints' },
+    ],
+  },
+  {
     id: 'daily',
     label: 'Daily Log',
     icon: '📊',
