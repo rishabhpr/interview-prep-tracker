@@ -34,17 +34,18 @@ function AddItemForm({ showDifficulty, onAdd, onCancel }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-2 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
-      <input
-        value={title} onChange={e => setTitle(e.target.value)}
-        placeholder="Item title..."
-        className="w-full px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
-        autoFocus
-      />
-      <div className="flex flex-wrap gap-2">
+    <form onSubmit={submit} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+      {/* Desktop: inline row. Mobile: stacked */}
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          value={title} onChange={e => setTitle(e.target.value)}
+          placeholder="Item title..."
+          className="flex-1 min-w-0 px-3 py-2.5 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+          autoFocus
+        />
         {showDifficulty && (
           <select value={difficulty} onChange={e => setDifficulty(e.target.value)}
-            className="px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-300 focus:outline-none focus:border-indigo-500">
+            className="px-3 py-2.5 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-300 focus:outline-none focus:border-indigo-500">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
@@ -53,12 +54,12 @@ function AddItemForm({ showDifficulty, onAdd, onCancel }) {
         <input
           value={url} onChange={e => setUrl(e.target.value)}
           placeholder="URL (optional)"
-          className="flex-1 min-w-[150px] px-3 py-3 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+          className="sm:w-48 px-3 py-2.5 bg-slate-900 rounded-md border border-slate-700 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
         />
-      </div>
-      <div className="flex gap-2">
-        <button type="submit" className="flex-1 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-md text-sm font-medium">Add</button>
-        <button type="button" onClick={onCancel} className="px-4 py-3 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 rounded-md text-sm">Cancel</button>
+        <div className="flex gap-2 sm:shrink-0">
+          <button type="submit" className="flex-1 sm:flex-none px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-md text-sm font-medium">Add</button>
+          <button type="button" onClick={onCancel} className="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 rounded-md text-sm">Cancel</button>
+        </div>
       </div>
     </form>
   )
@@ -118,15 +119,15 @@ function ItemRow({ item, showDifficulty, onUpdate, onDelete }) {
           <a href={item.url} target="_blank" rel="noopener" className="text-slate-500 hover:text-indigo-400 text-sm p-1">🔗</a>
         )}
 
-        {/* Notes toggle */}
+        {/* Notes toggle — always visible on mobile, hover on desktop */}
         <button onClick={() => setEditing(!editing)}
-          className={`text-sm p-1 ${item.notes ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'}`}>
+          className={`text-sm p-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ${item.notes ? 'text-indigo-400 !opacity-100' : 'text-slate-500 hover:text-slate-300'}`}>
           📝
         </button>
 
-        {/* Delete */}
+        {/* Delete — always visible on mobile, hover on desktop */}
         <button onClick={() => onDelete(item.id)}
-          className="text-sm text-slate-600 hover:text-rose-400 p-1">✕</button>
+          className="text-sm text-slate-600 hover:text-rose-400 p-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">✕</button>
       </div>
 
       {/* Notes area */}
